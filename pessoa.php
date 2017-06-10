@@ -24,59 +24,7 @@
       $("#data").datepicker();
       $("#data").val("");
 
-      $("#cep").inputmask("99.999-999");
-      $("#cep").val("");
-
-      $("#endereco").val("");
-
-      $("#cep").on("blur", function() {
-
-        var cep = $("#cep").val();
-
-        cep = cep.replace('-', '');
-        cep = cep.replace('.', '');
-
-        if (cep == "") {
-          $('#endereco').after('<span id="msg-cep" class="alert">Digita o CEP.</span>');
-        } else {
-
-          $('#msg-cep').remove();
-
-          $.ajax({
-            url: 'http://viacep.com.br/ws/' + cep + '/json/',
-            type: 'get',
-            dataType: 'json',
-            crossDomain: true,
-            data: {
-              cep: cep,
-              formato: 'json',
-              chave: ''
-            },
-            success: function(data) {
-              $('#endereco').val(data.logradouro + ' - ' + data.complemento + ' - ' + data.bairro + ' - ' + data.localidade);
-            }
-
-          });
-
-        }
-
-      }).on("blur");
-
       $('#formPessoa').css('display','none');
-      $('#consultaPessoa').css('display','none');
-
-      $('#dadosPessoa').on('click', function() {
-
-        $('#formPessoa').css('display','none');
-
-        if ($('#consultaPessoa').css('display') == 'none') {
-          $('#consultaPessoa').css('display','block');
-        }
-        else {
-          $('#consultaPessoa').css('display','none');
-        }
-
-      });
 
       $('#addPessoa').on('click', function() {
         $('#consultaPessoa').css('display','none');
@@ -89,25 +37,6 @@
         $('#consultaPessoa').css('display','block');
       });
 
-      $('#formEndereco').css('display','none');
-      $('#consultaEndereco').css('display','none');
-
-      $('#dadosEndereco').on('click', function() {
-
-        if ($('#consultaEndereco').css('display') == 'none') {
-          $('#consultaEndereco').css('display','block');
-        }
-        else {
-          $('#consultaEndereco').css('display','none');
-        }
-
-      });
-
-      $('#retornaEndereco').on('click', function() {
-        $('#formEndereco').css('display','none');
-        $('#consultaEndereco').css('display','block');
-      });
-
     });
   </script>
 </head>
@@ -118,13 +47,6 @@
 
     <div class="container conteudo">
       <div class="conteudo">
-
-        <div class="submenu">
-          <ul>
-            <li id="dadosPessoa">Dados Pessoa</li>
-            <li id="dadosEndereco">Dados Endereço</li>
-          </ul>
-        </div>
 
         <?php
           $query = "select codigo, nome, sexo, nascimento from pessoa";
@@ -171,6 +93,7 @@
         <div id="formPessoa" style="background-color:#336ac4; height:400px; margin-top:5px;"><br>
           <form action="cadastraPessoa.php" style="margin-left:50px;" method="post">
             <h2>Cadastro Pessoa</h2><br>
+            <input type="number" style="display:none;" name="sequencia" value="">
             CPF: <input type="text" id="cpf" name="codigo" value="" placeholder="Digite o CPF"><br><br>
             Nome: <input type="text" id="nome" name="nome" value="" placeholder="Digite o Nome" style="width:300px;"><br><br>
             Sexo: <select name="sexo" id="sexo" name="sexo" style="width:90px;">
@@ -182,20 +105,6 @@
             <button type="button" id="retornaPessoa">Voltar</button>
           </form>
         </div>
-
-        <div id="formEndereco" style="background-color:#336ac4; height:400px; margin-top:5px;"><br>
-          <form action="cadastraEndereco.php" style="margin-left:50px;" method="post">
-            <h2>Cadastro Endereço</h2><br>
-            <input type="numeric" id="cep" value="" placeholder="Digite o CEP">
-            <input type="text" style="width:550px;" id="endereco" value=""><br><br>
-            <input type="numeric" id="numero" value="" placeholder="Digite o Número">
-
-            <button type="submit" name="enviar">Enviar</button>
-            <button type="button" id="retornaEndereco">Voltar</button>
-          </form>
-        </div>
-
-      </div>
     </div>
 
   </body>

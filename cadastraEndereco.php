@@ -2,18 +2,17 @@
 
    $conexao = pg_connect("host=localhost port=5432 dbname=projetoForm user=postgres password=p");
 
-   $_POST["codigo"] = str_replace(".", "", $_POST["codigo"]);
-   $_POST["codigo"] = str_replace("-", "", $_POST["codigo"]);
+   $query = "select max(sequencia) from endereco where pessoa_codigo = ".$_POST['pessoa_codigo'];
 
-   echo $_POST["nascimento"];
+   $maxSeq = pg_query($conexao, $query);
 
-   $res = pg_insert($conexao, "pessoa", $_POST);
+   $_POST['sequencia'] = $maxSeq+1;
+
+   $res = pg_insert($conexao, "endereco", $_POST);
    if ($res) {
        echo "Dados POST arquivados com sucesso\n";
    }
    else {
        echo "O usuário deve ter inserido entradas inválidas\n";
    }
-
-   return;
  ?>

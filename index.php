@@ -19,6 +19,8 @@
 
         if ($('#pessoa').css('display') == 'none') {
           $('#pessoa').css('display','block');
+          $('#endereco').css('display','none');
+          $('#conta').css('display','none');
         }
         else {
           $('#pessoa').css('display','none');
@@ -26,7 +28,22 @@
 
       });
 
-      $('#conta').css('display','none');
+      $('#endereco').css('display','none');
+
+      $('#queryEndereco').on('click', function() {
+
+        if ($('#endereco').css('display') == 'none') {
+          $('#endereco').css('display','block');
+          $('#pessoa').css('display','none');
+          $('#conta').css('display','none');
+        }
+        else {
+          $('#endereco').css('display','none');
+        }
+
+      });
+
+/*      $('#conta').css('display','none');
 
       $('#queryContas').on('click', function() {
 
@@ -38,7 +55,7 @@
         }
 
       });
-
+*/
     });
   </script>
 
@@ -53,16 +70,21 @@
   <div class="menu_topo">
     <ul>
       <li id="queryPessoa">Pessoa</li>
+      <li id="queryEndereco">Endereço</li>
       <li id="queryContas">Contas</li>
     </ul>
   </div>
 
+  <div id="endereco">
+    <?php include("endereco.php"); ?>
+  </div>
+
   <div id="pessoa">
-    <?php include('pessoa.php'); ?>
+    <?php include("pessoa.php"); ?>
   </div>
 
   <div id="conta">
-    <?php include('conta.php'); ?>
+    <?php //echo include('conta.php'); ?>
   </div>
 
 </body>
