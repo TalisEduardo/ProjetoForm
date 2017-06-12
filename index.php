@@ -10,60 +10,65 @@
   <link rel="stylesheet" href="js/jquery-ui-1.12.1/jquery-ui.min.css">
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<!--  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
-  <script src="bootstrap/js/bootstrap.min.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>-->
   <script type="text/javascript">
     $(document).ready(function() {
 
-      $('#pessoa').css('display','none');
+      $('#tabs-1').css('display','none');
 
       $('#queryPessoa').on('click', function() {
 
-        if ($('#pessoa').css('display') == 'none') {
-          $('#pessoa').css('display','block');
-          $('#endereco').css('display','none');
-          $('#conta').css('display','none');
+        if ($('#tabs-1').css('display') == 'none') {
+          $('#tabs-1').css('display','block');
+          $('#tabs-2').css('display','none');
+          $('#tabs-3').css('display','none');
         }
         else {
-          $('#pessoa').css('display','none');
+          $('#tabs-1').css('display','none');
         }
 
       });
 
-      $('#endereco').css('display','none');
+      $('#tabs-2').css('display','none');
 
       $('#queryEndereco').on('click', function() {
 
-        if ($('#endereco').css('display') == 'none')
+        if ($('#tabs-2').css('display') == 'none')
         {
-          $('#endereco').css('display','block');
-          $('#pessoa').css('display','none');
-          $('#conta').css('display','none');
+          $('#tabs-2').css('display','block');
+          $('#tabs-1').css('display','none');
+          $('#tabs-3').css('display','none');
         }
         else {
-          $('#endereco').css('display','none');
+          $('#tabs-2').css('display','none');
         }
 
       });
 
-      $('#conta').css('display','none');
+      $('#tabs-3').css('display','none');
 
       $('#queryContas').on('click', function() {
 
-        if ($('#conta').css('display') == 'none')
+        if ($('#tabs-3').css('display') == 'none')
         {
-          $('#conta').css('display','block');
-          $('#pessoa').css('display','none');
-          $('#endereco').css('display','none');
+          $('#tabs-3').css('display','block');
+          $('#tabs-1').css('display','none');
+          $('#tabs-2').css('display','none');
         }
         else {
-          $('#conta').css('display','none');
+          $('#tabs-3').css('display','none');
         }
 
       });
 
+
     });
+    $( function() {
+      $( "#tabs" ).tabs();
+    } );
+
   </script>
 
 </head>
@@ -74,24 +79,26 @@
       <h1>Projeto Form</h1>
   </div>
 
-  <div class="menu_topo">
-    <ul>
-      <li id="queryPessoa">Pessoa</li>
-      <li id="queryEndereco">Endereço</li>
-      <li id="queryContas">Contas</li>
-    </ul>
-  </div>
+  <div id="tabs">
+      <div class="menu_topo">
+        <ul>
+          <li><a id="queryPessoa" href="#tabs-1">Pessoa</a></li>
+          <li><a id="queryEndereco" href="#tabs-2">Endereço</a></li>
+          <li><a id="queryContas" href="#tabs-3">Contas</a></li>
+        </ul>
+      </div>
 
-  <div id="endereco">
-    <?php include("endereco.php"); ?>
-  </div>
+      <div id="tabs-2">
+        <?php include("endereco.php"); ?>
+      </div>
 
-  <div id="conta">
-    <?php include('conta.php'); ?>
-  </div>
+      <div id="tabs-3">
+        <?php include('conta.php'); ?>
+      </div>
 
-  <div id="pessoa">
-    <?php include("pessoa.php"); ?>
+      <div id="tabs-1">
+        <?php include("pessoa.php"); ?>
+      </div>
   </div>
 
 
