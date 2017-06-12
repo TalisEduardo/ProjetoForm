@@ -12,119 +12,118 @@
   <link rel="stylesheet" href="js/jquery-ui-1.12.1/jquery-ui.min.css">
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
+  <script src="bootstrap/js/bootstrap.min.js"></script>
   <script type="text/javascript">
-      $(document).ready(function() {
+    $(document).ready(function() {
 
-      $("#nome").val("");
-
-      $("#data").inputmask("99/99/9999");
-      $("#data").val("");
+      $("#data").inputmask("dd/mm/yyyy");
       $("#data").datepicker();
+      $("#data").val("");
 
-      $("#cep").inputmask("99.999-999");
-      $("#cep").val("");
+      $('#formConta').css('display','none');
 
-      $("#endereco").val("");
+      $('#addConta').on('click', function() {
+        $('#consultaContas').css('display','none');
+        $('#formConta').css('display','block');
+      });
 
-      $("#cep").on("blur", function() {
+      $('#retornaConta').on('click', function() {
+        $('#consultaContas').css('display','block');
+        $('#formConta').css('display','none');
+      });
 
-        var cep = $("#cep").val();
-
-        cep = cep.replace('-', '');
-        cep = cep.replace('.', '');
-
-        if (cep == "") {
-          $('#endereco').after('<span id="msg-cep" class="alert">Digita o CEP.</span>');
-        } else {
-
-          $('#msg-cep').remove();
-
-          $.ajax({
-            url: 'http://viacep.com.br/ws/' + cep + '/json/',
-            type: 'get',
-            dataType: 'json',
-            crossDomain: true,
-            data: {
-              cep: cep,
-              formato: 'json',
-              chave: ''
-            },
-            success: function(data) {
-              $('#endereco').val(data.logradouro + ' - ' + data.complemento + ' - ' + data.bairro + ' - ' + data.localidade);
-            }
-
-          });
-
-        }
-
-      }).on("blur");
-
-    });
-
-    $('.menu li').on('mouseover', function() {
-      alert(this);
     });
   </script>
 </head>
 
 <body>
 
-  <div class="toolbar">
-    <button type="button" class="ui button">
-      Adicionar
-    </button>
-
-    <button type="button" class="ui red button">
-      Remover
-    </button>
-  </div>
-
-    <?php
-      $conexao = pg_connect("host=localhost port=5432 dbname=projetoForm user=postgres password=p");
-
-      $query = "select codigo, nome, sexo, nascimento from pessoa";
-
-      $resultado = pg_query($conexao, $query);
-
-    ?>
-
-    <table class="ui table">
-      <thead>
-        <tr>
-          <th>CPF</th>
-          <th>Nome</th>
-          <th>Sexo</th>
-          <th>Data Nascimento</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php while($obj = pg_fetch_object($resultado)) { ?>
-          <tr>
-            <td><?php echo $obj->codigo ?></td>
-            <td><?php echo $obj->nome ?></td>
-            <td><?php echo $obj->sexo ?></td>
-            <td><?php echo $obj->nascimento ?></td>
-          </tr>
-        <?php } ?>
-      </tbody>
-    </table>
+    <?php $conexao = pg_connect("host=localhost port=5432 dbname=projetoForm user=postgres password=p"); ?>
 
     <div class="container conteudo">
       <div class="conteudo">
 
-      <div style="background-color:#336ac4; height:400px; margin-top:5px;"><br>
-        <form action="hello.html" style="margin-left:50px;" method="post">
-          <h2>Formulário</h2><br>
-          <input type="text" id="nome" value="" placeholder="Digite o Nome"><br><br>
-          <input type="date" id="data" value="" placeholder="Digite a Data"><br><br>
-          <input type="numeric" id="cep" value="" placeholder="Digite o CEP">
-          <input type="text" style="width:550px;" id="endereco" value=""><br><br>
-          <button type="submit" name="enviar">Enviar</button>
-        </form>
+        <?php
+          $query = "select sequencia, tipo, vencimento, valor, status, pessoa_codigo from conta";
+
+          $cont = pg_query($conexao, $query);
+
+        ?>
+
+        <div id='consultaContas'>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Seq</th>
+                <th>Tipo</th>
+                <th>Data Vencimento</th>
+                <th>Valor</th>
+                <th>Status</th>
+                <th>Codigo Pessoa</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php while($obj = pg_fetch_object($cont)) { ?>
+                <tr>
+                  <td><?php echo $obj->sequencia ?></td>
+                  <td><?php echo $obj->tipo ?></td>
+                  <td><?php echo $obj->vencimento ?></td>
+                  <td><?php echo $obj->valor ?></td>
+                  <td><?php echo $obj->status ?></td>
+                  <td><?php echo $obj->pessoa_codigo ?></td>
+                </tr>
+              <?php } ?>
+            </tbody>
+          </table>
+
+          <div class="toolbar">
+            <button type="button" id="addConta">
+              Adicionar
+            </button>
+
+            <button type="button" id="delConta">
+              Remover
+            </button>
+          </div>
+        </div>
+
+        <div id="formConta" style="background-color:#336ac4; height:400px; margin-top:5px;"><br>
+          <form action="cadastraConta.php" style="margin-left:50px;" method="post">
+            <h2>Cadastro Conta</h2><br>
+            Tipo: <select name="tipo" style="width:150px;">
+                <option value="R">Conta a Receber</option>
+                <option value="P">Conta a Pagar</option>
+                  </select><br><br>
+
+            Data de Vencimento: <input type="text" id="data" name="vencimento" value="" placeholder="Digite a Data"><br><br>
+            Valor: <input type="decimal" style="width:60px;" id="valor" name="valor" value=""><br><br>
+
+            Status: <select name="status" style="width:150px;">
+                <option value="A">Em Aberto</option>
+                <option value="B">Baixado</option>
+                  </select><br><br>
+
+            <?php
+              $query = "select codigo, nome, sexo, nascimento from pessoa";
+
+              $resultado = pg_query($conexao, $query);
+            ?>
+
+            Pessoa: <select name="pessoa_codigo" id="pessoa_codigo" style="width:90px;">
+              <?php while($obj = pg_fetch_object($resultado)) { ?>
+                <option value="<?php echo $obj->codigo ?>"><?php echo $obj->nome ?></option>
+              <?php } ?>
+                    </select><br><br>
+
+            <button type="submit" id="enviar">Enviar</button>
+            <button type="button" id="retornaConta">Voltar</button>
+          </form>
+        </div>
+
       </div>
-
-    </div>
-
     </div>
 
   </body>

@@ -12,6 +12,9 @@
   <link rel="stylesheet" href="js/jquery-ui-1.12.1/jquery-ui.min.css">
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
+  <script src="bootstrap/js/bootstrap.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
 

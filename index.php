@@ -10,6 +10,9 @@
   <link rel="stylesheet" href="js/jquery-ui-1.12.1/jquery-ui.min.css">
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap-theme.min.css">
+  <script src="bootstrap/js/bootstrap.min.js"></script>
   <script type="text/javascript">
     $(document).ready(function() {
 
@@ -32,7 +35,8 @@
 
       $('#queryEndereco').on('click', function() {
 
-        if ($('#endereco').css('display') == 'none') {
+        if ($('#endereco').css('display') == 'none')
+        {
           $('#endereco').css('display','block');
           $('#pessoa').css('display','none');
           $('#conta').css('display','none');
@@ -43,19 +47,22 @@
 
       });
 
-/*      $('#conta').css('display','none');
+      $('#conta').css('display','none');
 
       $('#queryContas').on('click', function() {
 
-        if ($('#conta').css('display') == 'none') {
+        if ($('#conta').css('display') == 'none')
+        {
           $('#conta').css('display','block');
+          $('#pessoa').css('display','none');
+          $('#endereco').css('display','none');
         }
         else {
           $('#conta').css('display','none');
         }
 
       });
-*/
+
     });
   </script>
 
@@ -79,13 +86,14 @@
     <?php include("endereco.php"); ?>
   </div>
 
+  <div id="conta">
+    <?php include('conta.php'); ?>
+  </div>
+
   <div id="pessoa">
     <?php include("pessoa.php"); ?>
   </div>
 
-  <div id="conta">
-    <?php //echo include('conta.php'); ?>
-  </div>
 
 </body>
 
