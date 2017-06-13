@@ -1,4 +1,15 @@
 
+<?php
+
+  session_start();
+
+  if(!isset($_SESSION['usuario']))
+  {
+    header("Location:login.html");
+  }
+
+ ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -63,8 +74,8 @@
 
       });
 
-
     });
+
     $( function() {
       $( "#tabs" ).tabs();
     } );
@@ -77,6 +88,10 @@
 
   <div class="cabecalho">
       <h1>Projeto Form</h1>
+      <aside class="">
+        usuario logado: <?php echo $_SESSION['usuario'] ?>
+        <a href="logoff.php">fazer logoff</a>
+      </aside>
   </div>
 
   <div id="tabs">
